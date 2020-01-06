@@ -44,34 +44,19 @@ public class HelpingMethods {
 	 * since 1.0
 	 */
 	public int[] getSum() {
-		
-		
 		int[] scores = new int[] {12, 34, 23, 45};
 		return scores;
 	}
-	
+
+	/**
+	 * @return calculate and return total scores of the frames
+	 * since 1.0
+	 */
 	public int[] getScores(List<int[]> frames) {
-//		List<int[]> frames = new ArrayList<int[]>(10);
-//		frames.add(new int[] {3, 7});
-//		frames.add(new int[] {10, 0});
-//		frames.add(new int[] {8, 2});
-//		frames.add(new int[] {8, 1});
-//		frames.add(new int[] {10, 0});
-//		frames.add(new int[] {3, 4});
-//		frames.add(new int[] {7, 0});
-//		frames.add(new int[] {5, 5});
-//		frames.add(new int[] {3, 2});
-//		frames.add(new int[] {2, 5});
-		
-//		[[3,7],[10,0],[8,2],[8,1],[10,0],[3,4],[7,0],[5,5],[3,2],[2,5]]
-		
-		int[] frameSum = new int[10];
-		int[] scores = new int[10];
+		int[] frameSum = new int[10];		
 		int[] bounes = new int[10];
+		int index = 0;
 		
-		//-TotalScore is not being used
-		int index = 0, insertIndex = 0, totalScore = 0;
-		String res = "";
 		for(int[] arr : frames) {
 			for(int j = 0; j < arr.length ; j++) {
 				for(int i = 0; i < index; i++) {
@@ -84,12 +69,10 @@ public class HelpingMethods {
 				if(j== 0 && arr[0] > 9) { 
 					bounes[index] = 2;
 					frameSum[index] = 10;
-					//totalScore += 10;
 					if(index < 9) { break; }
 				}
 				//-player doesn't have strike
 				else {
-					//-if both bowls of the frame has come and score of the frame is 10 like [5 + 5]
 					if( j > 0) {
 						//-player has spare
 						if(arr[0] + arr[1] > 9 && index < 9  ) {bounes[index] = 1; frameSum[index] = 10;}
@@ -97,25 +80,32 @@ public class HelpingMethods {
 						else {
 							frameSum[index] += arr[j];
 						}
-						//totalScore += arr[j];
 					}
 					//-only first bowl of frame has thrown and it's not strike.
 					else {
 						bounes[index] = -1; 
 						frameSum[index] += arr[j];
-						//totalScore += arr[j];
 					}
 				}
-			} // for-j
+			}
 			index++;
-		} //- for-i
-		int[] response = new int[frames.size()]; 
-		for(int i = 0; i < frames.size() ; i++) {
-			totalScore += frameSum[i];
-			response[i] = totalScore;
-			res += scores[i] + "  :  "; 
 		}
-		return response;
-	} //end of getScores
+		
+		return addFrameScore(frames.size(), frameSum);
+	}
+
+	/**
+	 * @return an array with total scores
+	 * since 1.0
+	 */
+	public int[] addFrameScore(int noOfFrames, int[] individualFrameScores) {
+		int totalScores = 0;		
+		int[] scores = new int[noOfFrames]; 
+		for(int i = 0; i < noOfFrames ; i++) {
+			totalScores += individualFrameScores[i];
+			scores[i] = totalScores;
+		}
+		return scores;
+	}
 	
 }
