@@ -26,40 +26,32 @@ public class ApiController {
 	private HelpingMethods helpingMethods;
 	@Autowired
 	private TokenGeneration genToken;
-	
 	@Autowired
 	DataRepo repo;
 	
-	
-	@GetMapping(path="/working")
-	public String sayWorking() {
-		return "working 0";
-	}
-	
 	@GetMapping(path="/api/points")
 	public ResponseEntity<GetResponseModel> getFramesPoint() {
-		String token = genToken.generateToken();
-		List<int[]> frames = helpingMethods.getFrames();
-		int[] scores = helpingMethods.getScores(frames);
-		String toSave = helpingMethods.getFrameString(scores);
-		repo.save(new Game(1000, toSave, token));
-		return ResponseEntity.ok(new GetResponseModel(token, frames, scores)); 
-		
+		String token = genToken.generateToken();									/*Generating token*/
+		List<int[]> frames = helpingMethods.getFrames();							/*Generating valid bowling frames*/
+		int[] scores = helpingMethods.getScores(frames);							/*Calculating frames scores*/			
+		String toSave = helpingMethods.setScoresToString(scores);					/*Converting scores into a string*/
+		repo.save(new Game(1000, toSave, token));									/*Saving scores and token into database*/
+		return ResponseEntity.ok(new GetResponseModel(token, frames, scores)); 		/*Returning JSON response with token, bowling frames and total scores*/
 	}
 	
 	@PostMapping(path="/api/points")
-	public ResponseEntity<?> validateFramesPoint(@RequestBody PostRequestModel prm) {
+	public ResponseEntity<PostResponseModel> validateFramesPoint(@RequestBody PostRequestModel prm) {
 		try {
-			Game g = repo.findBytokenValue(prm.getToken());
-			if(g.getFramesValue().trim().equals(helpingMethods.getFrameString(prm.getScores()).trim())) {	
-				return ResponseEntity.status(200).body(new PostResponseModel("True"));
+			Game savedGame = repo.findBytokenValue(prm.getToken());
+			if(savedGame.getFramesValue().trim().equals(helpingMethods.setScoresToString(prm.getScores()).trim())) {
+				return ResponseEntity.status(200).body(new PostResponseModel("True"));		//- Token is valid and scores are correct
 			}
 			else {
-				return ResponseEntity.status(200).body(new PostResponseModel("false"));
+				return ResponseEntity.status(200).body(new PostResponseModel("false"));		//- Token is valid but scores are not correct
 			}
 		}
 		catch (Exception e) {
-			return ResponseEntity.status(404).body(new PostResponseModel("false"));
+			return ResponseEntity.status(404).body(new PostResponseModel("false"));			//- Token is not valid or not exist
 		}
 	}
 }

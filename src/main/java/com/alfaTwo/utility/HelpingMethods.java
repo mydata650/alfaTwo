@@ -40,15 +40,6 @@ public class HelpingMethods {
 	}
 	
 	/**
-	 * @return a scores of received method
-	 * since 1.0
-	 */
-	public int[] getSum() {
-		int[] scores = new int[] {12, 34, 23, 45};
-		return scores;
-	}
-
-	/**
 	 * @return calculate and return total scores of the frames
 	 * since 1.0
 	 */
@@ -90,7 +81,6 @@ public class HelpingMethods {
 			}
 			index++;
 		}
-		
 		return addFrameScore(frames.size(), frameSum);
 	}
 
@@ -109,10 +99,10 @@ public class HelpingMethods {
 	}
 	
 	/**
-	 * @return Frames vlaues in the form of string to save in database
+	 * @return Frames values in the form of string to save in database
 	 * since 1.0
 	 */
-	public String getFrameString(int[] frames) {
+	public String setScoresToString(int[] frames) {
 		String res = "";
 		for(int val : frames) {
 			res += val + ":";
