@@ -6,6 +6,7 @@ import java.util.List;
 
 public class GetResponseModel implements Serializable  {
 	
+	private static final long serialVersionUID = 1L;
 	private String token;
 	private List<int[]> frames;
 	private int[] scores;

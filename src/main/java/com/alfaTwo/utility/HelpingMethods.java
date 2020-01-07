@@ -108,4 +108,16 @@ public class HelpingMethods {
 		return scores;
 	}
 	
+	/**
+	 * @return Frames vlaues in the form of string to save in database
+	 * since 1.0
+	 */
+	public String getFrameString(int[] frames) {
+		String res = "";
+		for(int val : frames) {
+			res += val + ":";
+		}
+		return res;
+	}
+	
 }

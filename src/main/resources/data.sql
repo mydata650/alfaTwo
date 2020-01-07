@@ -1,0 +1,1 @@
+insert into GAME values(1, '12:14:20:30:39:46:', '14yGFk33PEbjrrYqjr5fcvAlIm4zDFjSrbv3A8NU');
