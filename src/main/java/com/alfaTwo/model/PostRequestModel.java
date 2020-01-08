@@ -1,8 +1,10 @@
 package com.alfaTwo.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class PostRequestModel {
+public class PostRequestModel implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String token;
 	private int[] scores;
 	
